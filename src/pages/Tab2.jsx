@@ -49,17 +49,17 @@ const Tab2 = () => {
                 <IonLabel className="savings-lists">
                   <div className="savings-label">
                     <h2>Label</h2>
-                    <p>₱1,000.00</p>
+                    <div className="goal-container">
+                      <p>₱1,000.00</p>
+                      <p>GOAL</p>
+                    </div>
                   </div>
                   <ProgressBar />
                   <div className="savings-estimate">
-                    <div className="savings-remaining">
-                      <p>₱1,000.00</p>
-                      <p>REMAINING</p>
-                    </div>
+                    <p>₱1,000.00</p>
                     <div className="savings-goal">
                       <p>₱2,000.00</p>
-                      <p>GOAL</p>
+                      <p>REMAINING</p>
                     </div>
                   </div>
                 </IonLabel>

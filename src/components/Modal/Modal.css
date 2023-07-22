@@ -1,4 +1,4 @@
-.tab1-modal {
+.expense-modal, .income-modal {
   max-height: 330px;
 }
 
@@ -15,7 +15,8 @@
   max-height: 300px;
 }
 
-.tab1-modal,
+.expense-modal,
+.income-modal,
 .tab2-modal,
 .tab3-modal,
 .savings-modal,
@@ -42,8 +43,6 @@
 
 .modal-segment {
   color: #fff;
-  border-right: 1px solid var(--ion-color-medium);
-  font-size: 12px;
 }
 
 .category-btn {

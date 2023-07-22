@@ -12,21 +12,29 @@ import {
   IonLabel,
   IonButton,
   IonIcon,
+  IonFab,
+  IonFabButton,
+  IonFabList,
 } from "@ionic/react";
-import { add } from "ionicons/icons";
+import { add, cashOutline, addCircleOutline } from "ionicons/icons";
 import ExploreContainer from "../components/ExploreContainer";
-import Tab1Modal from "../components/Modal/Tab1Modal";
+import IncomeModal from "../components/Modal/Tab1Income";
+import ExpenseModal from "../components/Modal/Tab1Expense";
 import Header from "../components/Header";
 import "./Tab1.css";
 
 const Tab1 = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showIncomeModal, setIncomeModal] = useState(false);
   const [balance, setBalance] = useState(0);
   const [expense, setExpense] = useState(0);
   const [income, setIncome] = useState(0);
 
-  const handleModal = () => {
-    setShowModal((prev) => !prev);
+  const handleExpenseModal = () => {
+    setShowExpenseModal((prev) => !prev);
+  };
+  const handleIncomeModal = () => {
+    setIncomeModal((prev) => !prev);
   };
 
   return (
@@ -109,13 +117,21 @@ const Tab1 = () => {
             </IonLabel>
           </IonItem>
         </IonList>
-        <IonButton className="add-btn" onClick={handleModal}>
-          <IonIcon slot="icon-only" icon={add}></IonIcon>
-        </IonButton>
-        <Tab1Modal
-          isOpen={showModal}
-          onClose={handleModal}
-        />
+        <IonFab slot="fixed" vertical="bottom" horizontal="end">
+          <IonFabButton>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+          <IonFabList side="top">
+            <IonFabButton onClick={handleExpenseModal}>
+              <IonIcon icon={cashOutline}></IonIcon>
+            </IonFabButton>
+            <IonFabButton onClick={handleIncomeModal}>
+              <IonIcon icon={addCircleOutline}></IonIcon>
+            </IonFabButton>
+          </IonFabList>
+        </IonFab>
+        <ExpenseModal isOpen={showExpenseModal} onClose={handleExpenseModal} />
+        <IncomeModal isOpen={showIncomeModal} onClose={handleIncomeModal} />
       </IonContent>
     </IonPage>
   );

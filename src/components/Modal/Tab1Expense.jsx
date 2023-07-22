@@ -7,7 +7,6 @@ import {
   IonInput,
   IonHeader,
   IonList,
-  IonIcon,
   IonSegment,
   IonSegmentButton,
   IonLabel,
@@ -15,18 +14,13 @@ import {
 import { checkmarkCircle, checkmarkCircleOutline } from "ionicons/icons";
 import "./Modal.css";
 
-const Tab1Modal = ({ isOpen, onClose }) => {
+const ExpenseModal = ({ isOpen, onClose }) => {
   return (
-    <IonModal isOpen={isOpen} className="tab1-modal">
+    <IonModal isOpen={isOpen} className="expense-modal">
       <IonHeader className="modal-header">
         <IonSegment>
           <IonSegmentButton value="expense" className="modal-segment">
-            <IonIcon icon={checkmarkCircle} />
             <IonLabel>EXPENSE</IonLabel>
-          </IonSegmentButton>
-          <IonSegmentButton value="income" className="modal-segment">
-            <IonIcon icon={checkmarkCircleOutline} />
-            <IonLabel>INCOME</IonLabel>
           </IonSegmentButton>
         </IonSegment>
       </IonHeader>
@@ -59,4 +53,4 @@ const Tab1Modal = ({ isOpen, onClose }) => {
   );
 };
 
-export default Tab1Modal;
+export default ExpenseModal;
