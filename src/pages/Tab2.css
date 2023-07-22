@@ -1,0 +1,29 @@
+.savings-label {
+  padding-bottom: 5px;
+}
+
+.savings-estimate {
+  padding-top: 5px;
+}
+
+.savings-label,
+.savings-estimate {
+  display: flex;
+  justify-content: space-between;
+}
+
+.savings-remaining,
+.savings-goal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.savings-remaining > p:nth-child(2) {
+  font-size: 12px;
+}
+
+.savings-goal > p:nth-child(2) {
+  font-size: 12px;
+}
