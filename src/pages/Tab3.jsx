@@ -19,7 +19,9 @@ import "./Tab3.css";
 const Tab3 = () => {
   const [showModalAdd, setShowModalAdd] = useState(false);
   const [showModalEdit, setShowModalEdit] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState(["Category 1", "Category 2"]);
+  const [editedCategory, setEditedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const handleReorder = (event) => {
     console.log("Dragged from index", event.detail.from, "to", event.detail.to);
@@ -32,15 +34,28 @@ const Tab3 = () => {
 
   const handleModalClose = () => {
     setShowModalAdd((prev) => !prev);
+    setShowModalEdit(false);
+    setEditedCategory("");
   };
 
-  const handleModalEdit = () => {
+  const handleModalEdit = (category, index) => {
+    setSelectedCategory(index);
+    setEditedCategory(category);
     setShowModalEdit((prev) => !prev);
   };
 
   const handleCategorySave = (categoryName) => {
-    setCategories((prevCategories) => [...prevCategories, categoryName]);
+    if (editedCategory !== "") {
+      const updatedCategories = [...categories];
+      updatedCategories[selectedCategory] = categoryName;
+      setCategories(updatedCategories);
+    } else {
+      setCategories((prevCategories) => [...prevCategories, categoryName]);
+    }
     setShowModalAdd((prev) => !prev);
+    setShowModalEdit((prev) => !prev);
+    setSelectedCategory(null);
+    setEditedCategory("");
   };
 
   return (
@@ -49,19 +64,28 @@ const Tab3 = () => {
       <IonContent fullscreen>
         <IonList className="category-lists">
           <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
-            {categories.map((category, index) => {
+            {categories.map((category, index) => (
               <IonItem key={index}>
-                <IonButton fill="clear">
+                <IonButton
+                  fill="clear"
+                  onClick={() => {
+                    setCategories((prev) => {
+                      return prev.filter((c, i) => i !== index);
+                    });
+                  }}
+                >
                   <IonIcon slot="icon-only" icon={removeCircleOutline} />
                 </IonButton>
-                <EditModal isOpen={showModalEdit} onClose={handleModalEdit} />
                 <IonLabel>{category}</IonLabel>
                 <IonReorder slot="end" />
-                <IonButton fill="clear" onClick={handleModalEdit}>
+                <IonButton
+                  fill="clear"
+                  onClick={() => handleModalEdit(category, index)}
+                >
                   <IonIcon slot="icon-only" icon={createOutline} />
                 </IonButton>
-              </IonItem>;
-            })}
+              </IonItem>
+            ))}
           </IonReorderGroup>
         </IonList>
         <IonButton className="add-btn" onClick={handleModalAdd}>
@@ -71,6 +95,15 @@ const Tab3 = () => {
           isOpen={showModalAdd}
           onClose={handleModalClose}
           onSave={handleCategorySave}
+          initialValue={
+            selectedCategory !== null ? categories[selectedCategory] : ""
+          }
+        />
+        <EditModal
+          isOpen={showModalEdit}
+          onClose={handleModalClose}
+          onSave={handleCategorySave}
+          initialValue={editedCategory}
         />
       </IonContent>
     </IonPage>

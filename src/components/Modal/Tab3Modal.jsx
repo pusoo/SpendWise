@@ -25,7 +25,7 @@ const Tab3Modal = ({ isOpen, onClose, onSave }) => {
   return (
     <IonModal isOpen={isOpen} className="tab3-modal">
       <IonContent>
-        <IonHeader className="modal-header">Category</IonHeader>
+        <IonHeader className="modal-header">Add Category</IonHeader>
         <IonList className="modal-inputs">
           <IonItem>
             <IonInput

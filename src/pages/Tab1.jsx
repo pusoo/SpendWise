@@ -29,16 +29,6 @@ const Tab1 = () => {
     setShowModal((prev) => !prev);
   };
 
-  const handleAddExpense = (amount) => {
-    setBalance((prevBalance) => prevBalance - amount);
-    setExpense((prevExpense) => prevExpense + amount);
-  };
-
-  const handleAddIncome = (amount) => {
-    setBalance((prevBalance) => prevBalance + amount);
-    setIncome((prevExpense) => prevExpense + amount);
-  };
-
   return (
     <IonPage>
       <Header />
@@ -125,8 +115,6 @@ const Tab1 = () => {
         <Tab1Modal
           isOpen={showModal}
           onClose={handleModal}
-          onAddExpense={handleAddExpense}
-          onAddIncome={handleAddIncome}
         />
       </IonContent>
     </IonPage>
