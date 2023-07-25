@@ -28,9 +28,8 @@ ion-card {
   margin: 25px;
 }
 
-.expense-lists {
+.expense-label {
   display: flex;
-  justify-content: space-between;
 }
 
 .add-btn {

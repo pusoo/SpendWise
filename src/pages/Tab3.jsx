@@ -33,7 +33,7 @@ const Tab3 = () => {
   };
 
   const handleModalClose = () => {
-    setShowModalAdd((prev) => !prev);
+    setShowModalAdd(false);
     setShowModalEdit(false);
     setEditedCategory("");
   };
