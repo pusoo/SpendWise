@@ -27,3 +27,15 @@
 .savings-goal > p:nth-child(2) {
   font-size: 12px;
 }
+
+/* Tab2.css (or your CSS file) */
+
+.my-modal {
+  --width: 80%; /* Set the width of the modal as needed */
+  --height: 60%; /* Set the height of the modal as needed */
+  --max-height: none; /* Remove the max-height limitation */
+  --border-radius: 10px; /* Add some border-radius for a rounded look */
+  --ion-safe-area-top: 20%; /* Adjust the top safe area as needed */
+
+  /* Add other custom styles if required */
+}

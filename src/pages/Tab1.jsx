@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   IonContent,
   IonPage,
@@ -17,43 +17,62 @@ import {
   IonFabList,
   IonModal,
   IonHeader,
-  IonButtons,
-  IonTitle,
-  IonToolbar,
   IonInput,
-  IonSegment,
-  IonSegmentButton,
+  IonToolbar,
+  IonTitle,
 } from "@ionic/react";
-import { add, cashOutline, addCircleOutline, carOutline } from "ionicons/icons";
-import ExploreContainer from "../components/ExploreContainer";
-// import IncomeModal from "../components/Modal/Tab1Income";
-// import ExpenseModal from "../components/Modal/Tab1Expense";
+import {
+  add,
+  cashOutline,
+  addCircleOutline,
+  removeCircleOutline,
+} from "ionicons/icons";
 import Header from "../components/Header";
 import "./Tab1.css";
 
 const Tab1 = () => {
   const [incomeRecords, setIncomeRecords] = useState([
-    { label: "Salary", amount: "50000", date: "2023-07-25" },
-    { label: "Awards", amount: "1000", date: "2023-07-25" },
+    { label: "Heart", amount: 5000, date: "2023-25-07" },
   ]);
   const [incomeName, setIncomeName] = useState("");
   const [incomeAmount, setIncomeAmount] = useState(0);
   const [incomeDate, setIncomeDate] = useState("");
   const [expenseRecords, setExpenseRecords] = useState([
-    { label: "Laptop", amount: "20000", date: "2023-07-25" },
-    { label: "Bills", amount: "2000", date: "2023-07-25" },
+    { label: "Jomaru", amount: 2000, date: "2023-25-07" },
   ]);
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState(0);
   const [expenseDate, setExpenseDate] = useState("");
   const [showIncomeModal, setShowIncomeModal] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showListModal, setShowListModal] = useState(false);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editIncomeRecord, setEditIncomeRecord] = useState(null);
+  const [editIncomeIndex, setEditIncomeIndex] = useState(null);
+  const [editExpenseRecord, setEditExpenseRecord] = useState(null);
+  const [editExpenseIndex, setEditExpenseIndex] = useState(null);
 
   const handleIncomeModal = () => {
     setShowIncomeModal((prev) => !prev);
   };
   const handleExpenseModal = () => {
     setShowExpenseModal((prev) => !prev);
+  };
+
+  const handleIncomeEditModal = (incomeRecord, index) => {
+    setEditIncomeRecord(incomeRecord);
+    setEditIncomeIndex(index);
+    setShowListModal((prev) => !prev);
+  };
+
+  const handleExpenseEditModal = (expenseRecord, index) => {
+    setEditExpenseRecord(expenseRecord);
+    setEditExpenseIndex(index);
+    setShowListModal((prev) => !prev);
+  };
+
+  const handleCategoryModal = () => {
+    setShowCategoryModal((prev) => !prev);
   };
 
   return (
@@ -106,66 +125,245 @@ const Tab1 = () => {
             </IonGrid>
           </IonCardContent>
         </IonCard>
-        <IonList lines="full" className="income-lists">
+        <IonList lines="full">
           <IonItem>
             <IonLabel>Income</IonLabel>
           </IonItem>
           {incomeRecords.map((incomeRecord, index) => {
             return (
-              <IonItem key={index}>
-                <IonLabel
-                  style={{
-                    display: "flex",
-                    width: "100vw",
-                    flexDirection: "column",
-                    padding: "5px 8px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <p>{incomeRecord.label}</p>
-                    <p>{incomeRecord.amount}</p>
-                    <p>{incomeRecord.date}</p>
+              <IonGrid key={index}>
+                <IonRow>
+                  <div className="delete-column">
+                    <IonCol>
+                      <IonButton
+                        fill="clear"
+                        onClick={() => {
+                          setIncomeRecords((prev) => {
+                            return prev.filter((income, i) => i !== index);
+                          });
+                        }}
+                      >
+                        <IonIcon
+                          slot="icon-only"
+                          icon={removeCircleOutline}
+                        ></IonIcon>
+                      </IonButton>
+                    </IonCol>
                   </div>
-                </IonLabel>
-              </IonItem>
+                  <div
+                    className="lists-column"
+                    onClick={() => handleIncomeEditModal(incomeRecord, index)}
+                  >
+                    <IonCol>{incomeRecord.label}</IonCol>
+                    <IonCol>{incomeRecord.amount}</IonCol>
+                    <IonCol>{incomeRecord.date}</IonCol>
+                  </div>
+                </IonRow>
+                {/* INCOME EDIT MODAL */}
+                {editIncomeRecord && editIncomeIndex === index && (
+                  <IonModal isOpen={showListModal} className="lists-modal">
+                    <IonHeader className="modal-header">
+                      <IonToolbar>
+                        <IonTitle>Income</IonTitle>
+                      </IonToolbar>
+                    </IonHeader>
+                    <IonContent className="modal-content">
+                      <IonButton
+                        className="category-btn"
+                        expand="block"
+                        fill="outline"
+                      >
+                        Category
+                      </IonButton>
+                      <IonList className="modal-inputs">
+                        <IonItem key={index}>
+                          <IonInput
+                            label="Name:"
+                            labelPlacement="stacked"
+                            type="text"
+                            value={editIncomeRecord.label}
+                            onIonChange={(e) =>
+                              setEditIncomeRecord((prev) => ({
+                                ...prev,
+                                label: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                        <IonItem key={index}>
+                          <IonInput
+                            label="Date:"
+                            labelPlacement="stacked"
+                            type="date"
+                            value={editIncomeRecord.date}
+                            onIonChange={(e) =>
+                              setEditIncomeRecord((prev) => ({
+                                ...prev,
+                                date: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                        <IonItem key={index}>
+                          <IonInput
+                            label="Amount:"
+                            labelPlacement="stacked"
+                            type="text"
+                            value={editIncomeRecord.amount}
+                            onIonChange={(e) =>
+                              setEditIncomeRecord((prev) => ({
+                                ...prev,
+                                amount: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                      </IonList>
+                      <div className="modal-footer">
+                        <IonButton onClick={() => setShowListModal(false)}>
+                          CANCEL
+                        </IonButton>
+                        <IonButton
+                          onClick={() => {
+                            setIncomeRecords((prev) => {
+                              const updatedRecords = [...prev];
+                              updatedRecords[editIncomeIndex] =
+                                editIncomeRecord;
+                              return updatedRecords;
+                            });
+                            setShowListModal(false);
+                          }}
+                        >
+                          SAVE
+                        </IonButton>
+                      </div>
+                    </IonContent>
+                  </IonModal>
+                )}
+              </IonGrid>
             );
           })}
         </IonList>
-        <IonList lines="full" className="expense-lists">
+        <IonList lines="full">
           <IonItem>
             <IonLabel>Expense</IonLabel>
           </IonItem>
           {expenseRecords.map((expenseRecord, index) => {
             return (
-              <IonItem key={index}>
-                <IonLabel
-                  style={{
-                    display: "flex",
-                    width: "100vw",
-                    flexDirection: "column",
-                    padding: "5px 8px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <p>{expenseRecord.label}</p>
-                    <p>{expenseRecord.amount}</p>
-                    <p>{expenseRecord.date}</p>
+              <IonGrid key={index}>
+                <IonRow>
+                  <div className="delete-column">
+                    <IonCol>
+                      <IonButton
+                        fill="clear"
+                        onClick={() => {
+                          setExpenseRecords((prev) => {
+                            return prev.filter((expense, i) => i !== index);
+                          });
+                        }}
+                      >
+                        <IonIcon
+                          slot="icon-only"
+                          icon={removeCircleOutline}
+                        ></IonIcon>
+                      </IonButton>
+                    </IonCol>
                   </div>
-                </IonLabel>
-              </IonItem>
+                  <div
+                    className="lists-column"
+                    onClick={() => handleExpenseEditModal(expenseRecord, index)}
+                  >
+                    <IonCol>{expenseRecord.label}</IonCol>
+                    <IonCol>{expenseRecord.amount}</IonCol>
+                    <IonCol>{expenseRecord.date}</IonCol>
+                  </div>
+                </IonRow>
+                {/* EXPENSE EDIT MODAL */}
+                {editExpenseRecord && editExpenseIndex === index && (
+                  <IonModal isOpen={showListModal} className="lists-modal">
+                    <IonHeader className="modal-header">
+                      <IonToolbar>
+                        <IonTitle>Expense</IonTitle>
+                      </IonToolbar>
+                    </IonHeader>
+                    <IonContent className="modal-content">
+                      <IonButton
+                        className="category-btn"
+                        expand="block"
+                        fill="outline"
+                      >
+                        Category
+                      </IonButton>
+                      <IonList className="modal-inputs">
+                        <IonItem>
+                          <IonInput
+                            label="Name: "
+                            labelPlacement="stacked"
+                            type="text"
+                            value={editExpenseRecord.label}
+                            onIonChange={(e) =>
+                              setEditExpenseRecord((prev) => ({
+                                ...prev,
+                                label: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                        <IonItem>
+                          <IonInput
+                            label="Date: "
+                            labelPlacement="stacked"
+                            type="date"
+                            value={editExpenseRecord.date}
+                            onIonChange={(e) =>
+                              setEditExpenseRecord((prev) => ({
+                                ...prev,
+                                date: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                        <IonItem key={index}>
+                          <IonInput
+                            label="Amount:"
+                            labelPlacement="stacked"
+                            type="text"
+                            value={editExpenseRecord.amount}
+                            onIonChange={(e) =>
+                              setEditExpenseRecord((prev) => ({
+                                ...prev,
+                                amount: e.target.value,
+                              }))
+                            }
+                          ></IonInput>
+                        </IonItem>
+                      </IonList>
+                      <div className="modal-footer">
+                        <IonButton onClick={() => setShowListModal(false)}>
+                          CANCEL
+                        </IonButton>
+                        <IonButton
+                          onClick={() => {
+                            setExpenseRecords((prev) => {
+                              const updatedRecords = [...prev];
+                              updatedRecords[editExpenseIndex] =
+                                editExpenseRecord;
+                              return updatedRecords;
+                            });
+                            setShowListModal(false);
+                          }}
+                        >
+                          SAVE
+                        </IonButton>
+                      </div>
+                    </IonContent>
+                  </IonModal>
+                )}
+              </IonGrid>
             );
           })}
         </IonList>
+        {/* ADD BUTTON */}
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
           <IonFabButton>
             <IonIcon icon={add}></IonIcon>
@@ -179,15 +377,12 @@ const Tab1 = () => {
             </IonFabButton>
           </IonFabList>
         </IonFab>
-
         {/* INCOME MODAL */}
         <IonModal isOpen={showIncomeModal} className="income-modal">
           <IonHeader className="modal-header">
-            <IonSegment>
-              <IonSegmentButton value="expense" className="modal-segment">
-                <IonLabel>INCOME</IonLabel>
-              </IonSegmentButton>
-            </IonSegment>
+            <IonToolbar>
+              <IonTitle>Income</IonTitle>
+            </IonToolbar>
           </IonHeader>
           <IonContent className="modal-content">
             <IonButton className="category-btn" expand="block" fill="outline">
@@ -246,18 +441,21 @@ const Tab1 = () => {
             </div>
           </IonContent>
         </IonModal>
-
         {/* EXPENSE MODAL */}
         <IonModal isOpen={showExpenseModal} className="expense-modal">
           <IonHeader className="modal-header">
-            <IonSegment>
-              <IonSegmentButton value="expense" className="modal-segment">
-                <IonLabel>EXPENSE</IonLabel>
-              </IonSegmentButton>
-            </IonSegment>
+            <IonToolbar>
+              <IonTitle>Expense</IonTitle>
+            </IonToolbar>
           </IonHeader>
           <IonContent className="modal-content">
-            <IonButton className="category-btn" expand="block" fill="outline">
+            <IonButton
+              id="open-modal"
+              className="category-btn"
+              expand="block"
+              fill="outline"
+              onClick={handleCategoryModal}
+            >
               Category
             </IonButton>
             <IonList className="modal-inputs">
@@ -310,6 +508,25 @@ const Tab1 = () => {
               >
                 DONE
               </IonButton>
+            </div>
+          </IonContent>
+        </IonModal>
+        {/* CATEGORY MODAL */}
+        <IonModal isOpen={showCategoryModal} className="category-modal">
+          <IonContent>
+            <IonHeader className="modal-header">
+              <IonToolbar>
+                <IonTitle>Select a Category</IonTitle>
+              </IonToolbar>
+            </IonHeader>
+            <IonList className="modal-inputs">
+              <IonItem lines="none">
+                <IonLabel>Icon</IonLabel>
+              </IonItem>
+            </IonList>
+            <div className="modal-footer">
+              <IonButton onClick={handleCategoryModal}>CANCEL</IonButton>
+              <IonButton>DONE</IonButton>
             </div>
           </IonContent>
         </IonModal>

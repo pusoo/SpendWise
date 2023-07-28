@@ -7,6 +7,8 @@ import {
   IonInput,
   IonList,
   IonHeader,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 import "./Modal.css";
 
@@ -14,7 +16,11 @@ const Tab2Modal = ({ isOpen, onClose }) => {
   return (
     <IonModal isOpen={isOpen} className="tab2-modal">
       <IonContent>
-        <IonHeader className="modal-header">Create New Goal</IonHeader>
+        <IonHeader className="modal-header">
+          <IonToolbar>
+            <IonTitle>Create New Goal</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonList className="modal-inputs">
           <IonItem>
             <IonInput

@@ -1,18 +1,35 @@
-.expense-modal, .income-modal {
+.expense-modal,
+.income-modal,
+.category-modal {
   max-height: 330px;
+}
+
+.tab3-modal {
+  max-height: 400px;
 }
 
 .tab2-modal {
   max-height: 250px;
 }
 
-.tab3-modal,
 .edit-modal {
-  max-height: 180px;
+  max-height: 200px;
 }
 
-.savings-modal {
+.savings-modal,
+.lists-modal {
   max-height: 300px;
+}
+
+.category-modal {
+  max-width: 300px;
+  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 .expense-modal,
@@ -20,7 +37,8 @@
 .tab2-modal,
 .tab3-modal,
 .savings-modal,
-.edit-modal {
+.edit-modal,
+.lists-modal {
   max-width: 300px;
   border-radius: 10px;
   box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
@@ -33,16 +51,9 @@
 }
 
 .modal-header {
-  display: flex;
-  justify-content: center;
-  background-color: var(--ion-color-primary);
   box-shadow: none;
   color: #fff;
-  padding: 15px;
-}
-
-.modal-segment {
-  color: #fff;
+  text-align: center;
 }
 
 .category-btn {

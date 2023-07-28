@@ -9,6 +9,8 @@ import {
   IonRadio,
   IonRadioGroup,
   IonHeader,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 import "./Modal.css";
 
@@ -16,7 +18,11 @@ const SavingsModal = ({ isOpen, onClose }) => {
   return (
     <IonModal isOpen={isOpen} className="savings-modal">
       <IonContent>
-        <IonHeader className="modal-header">Add Savings or Withdraw</IonHeader>
+        <IonHeader className="modal-header">
+          <IonToolbar>
+            <IonTitle>Add Savings or Withdraw</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonList className="modal-inputs">
           <IonItem>
             <IonInput
