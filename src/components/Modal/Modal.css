@@ -1,24 +1,18 @@
 .expense-modal,
 .income-modal,
-.category-modal {
-  max-height: 330px;
+.category-modal,
+.savings-modal,
+.lists-modal {
+  max-height: 320px;
 }
 
-.tab3-modal {
-  max-height: 400px;
+.tab3-modal,
+.edit-modal {
+  max-height: 410px;
 }
 
 .tab2-modal {
   max-height: 250px;
-}
-
-.edit-modal {
-  max-height: 200px;
-}
-
-.savings-modal,
-.lists-modal {
-  max-height: 300px;
 }
 
 .category-modal {

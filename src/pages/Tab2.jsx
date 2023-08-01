@@ -16,10 +16,11 @@ import {
   IonInput,
   IonRadioGroup,
   IonRadio,
+  IonFab,
+  IonFabButton,
 } from "@ionic/react";
 import { add } from "ionicons/icons";
 import Header from "../components/Header";
-import ProgressBar from "../components/ProgressBar";
 import "./Tab2.css";
 
 const Tab2 = () => {
@@ -30,7 +31,10 @@ const Tab2 = () => {
     { label: "Car", amount: 5000, current: 0 },
   ]);
   const [currentAmount, setCurrentAmount] = useState(0);
-  const [addGoalRecord, setAddGoalRecord] = useState(null);
+  const [addGoalRecord, setAddGoalRecord] = useState({
+    current: "",
+    date: new Date().toISOString(),
+  });
   const [addGoalIndex, setAddGoalIndex] = useState(null);
   const [selectedOption, setSelectedOption] = useState("savings");
   const [showModalAdd, setShowModalAdd] = useState(false);
@@ -46,11 +50,71 @@ const Tab2 = () => {
     setShowModalLists((prev) => !prev);
   };
 
+  const handleSavingsWithdraw = () => {
+    const goalRecord = goalRecords[addGoalIndex];
+    const currentAmount = parseFloat(goalRecord.current);
+    const inputAmount = parseFloat(addGoalRecord.current);
+
+    if (selectedOption === "savings") {
+      const newAmount = currentAmount + inputAmount;
+
+      if (newAmount <= goalRecord.amount) {
+        const updatedGoalRecord = {
+          ...goalRecord,
+          current: newAmount.toFixed(2),
+          date: addGoalRecord.date,
+        };
+
+        const updatedGoalRecords = [...goalRecords];
+        updatedGoalRecords[addGoalIndex] = updatedGoalRecord;
+        setGoalRecords(updatedGoalRecords);
+
+        setAddGoalRecord({
+          ...addGoalRecord,
+          current: "",
+          date: "",
+        });
+        setShowModalLists(false);
+      } else {
+        alert("The amount exceeds the goal.");
+      }
+    } else if (selectedOption === "withdraw") {
+      const newAmount = currentAmount - inputAmount;
+
+      if (newAmount >= 0) {
+        const updatedGoalRecord = {
+          ...goalRecord,
+          current: newAmount.toFixed(2),
+          date: addGoalRecord.date,
+        };
+
+        const updatedGoalRecords = [...goalRecords];
+        updatedGoalRecords[addGoalIndex] = updatedGoalRecord;
+        setGoalRecords(updatedGoalRecords);
+
+        setAddGoalRecord({
+          ...addGoalRecord,
+          current: "",
+          date: "",
+        });
+        setShowModalLists(false);
+      } else {
+        alert(
+          "Insufficient balance. The amount to withdraw exceeds the current savings."
+        );
+      }
+    }
+  };
+
   return (
     <IonPage>
       <Header />
       <IonContent fullscreen>
         {goalRecords.map((goalRecord, index) => {
+          const currentAmount = parseFloat(goalRecord.current);
+          const goalAmount = parseFloat(goalRecord.amount);
+          const progressPercent = (currentAmount / goalAmount) * 100;
+
           return (
             <IonCard key={index} onClick={() => handleModalLists(index)}>
               <IonCardContent>
@@ -60,17 +124,37 @@ const Tab2 = () => {
                       <div className="savings-label">
                         <h2>{goalRecord.label}</h2>
                         <div className="goal-container">
-                          <p>₱{goalRecord.amount}</p>
+                          <p>₱{goalRecord.amount.toLocaleString()}</p>
                           <p>GOAL</p>
                         </div>
                       </div>
-                      <ProgressBar />
+                      <div
+                        className="progressBar-container"
+                        style={{
+                          width: "100%",
+                          height: "10px",
+                          backgroundColor: "#ccc",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <div
+                          className="progress"
+                          style={{
+                            width: `${progressPercent}%`,
+                            backgroundColor: `${
+                              currentAmount === goalAmount ? "green" : "red"
+                            } `,
+                            height: "100%",
+                            borderRadius: "10px",
+                          }}
+                        ></div>
+                      </div>
                       <div className="savings-estimate">
                         <p>
                           ₱{goalRecord.current} <br /> {goalRecord.date}
                         </p>
                         <div className="savings-goal">
-                          <p>₱{`${goalRecord.amount - goalRecord.current}`}</p>
+                          <p>₱{`${(goalRecord.amount - goalRecord.current).toLocaleString()}`}</p>
                           <p>REMAINING</p>
                         </div>
                       </div>
@@ -95,7 +179,7 @@ const Tab2 = () => {
                   <IonInput
                     label="Amount:"
                     labelPlacement="stacked"
-                    type="text"
+                    type="number"
                     inputMode="numeric"
                     pattern="[0-9]*"
                     value={addGoalRecord.current}
@@ -133,45 +217,21 @@ const Tab2 = () => {
                 </IonItem>
               </IonList>
               <div className="modal-footer">
-                <IonButton onClick={() => setShowModalLists(false)}>
+                <IonButton onClick={() => setShowModalLists((prev) => !prev)}>
                   CANCEL
                 </IonButton>
-                <IonButton
-                  onClick={() => {
-                    if (selectedOption === "savings") {
-                      setGoalRecords((prev) => {
-                        const updatedRecords = [...prev];
-                        updatedRecords[addGoalIndex] = addGoalRecord;
-                        return updatedRecords;
-                      });
-                    } else {
-                      const withdrawalAmount = parseInt(addGoalRecord.current);
-                      if (withdrawalAmount <= addGoalRecord.current) {
-                        setGoalRecords((prev) => {
-                          const updatedRecords = [...prev];
-                          updatedRecords[addGoalIndex] = {
-                            ...addGoalRecord,
-                            current: addGoalRecord.current - withdrawalAmount,
-                          };
-                          return updatedRecords;
-                        });
-                      } else {
-                        //
-                      }
-                    }
-                    setShowModalLists(false);
-                  }}
-                >
-                  DONE
-                </IonButton>
+                <IonButton onClick={handleSavingsWithdraw}>DONE</IonButton>
               </div>
             </IonContent>
           </IonModal>
         )}
+
         {/* ADD BUTTON */}
-        <IonButton className="add-btn" onClick={handleModalAdd}>
-          <IonIcon slot="icon-only" icon={add}></IonIcon>
-        </IonButton>
+        <IonFab slot="fixed" vertical="bottom" horizontal="end">
+          <IonFabButton onClick={handleModalAdd}>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab>
 
         {/* ADD MODAL */}
         <IonModal isOpen={showModalAdd} className="tab2-modal">
@@ -220,7 +280,7 @@ const Tab2 = () => {
                       },
                     ];
                   });
-                  setShowModalAdd(false); 
+                  setShowModalAdd(false);
                   setGoalName("");
                   setGoalAmount("");
                 }}
