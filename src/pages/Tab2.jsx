@@ -25,22 +25,22 @@ import Header from "../components/Header";
 import "./Tab2.css";
 
 const Tab2 = () => {
-  // const [updateTrigger, setUpdateTrigger] = useState(0);
-  // const [data, setData] = useState([]);
-  // console.log(data)
+  const [updateTrigger, setUpdateTrigger] = useState(0);
+  const [data, setData] = useState([]);
+  console.log(data);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("http://localhost:3000/saving")
-  //     .then((res) => {
-  //       setData(res.data.data.map((record) => record));
-  //     })
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, [updateTrigger]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/tracker")
+      .then((res) => {
+        setData(res.data.data.map((record) => record));
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [updateTrigger]);
 
   // const createGoalData = (body) => {
   //   console.log(body);
-  //   axios.post("http://localhost:3000/saving", body).then((res) => {
+  //   axios.post("http://localhost:3000/savings/add-savings", body).then((res) => {
   //     console.log(res.data),
   //       setShowModalAdd(false),
   //       setUpdateTrigger((prev) => prev + 1);
