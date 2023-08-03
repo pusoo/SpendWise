@@ -154,7 +154,12 @@ const Tab2 = () => {
                           ₱{goalRecord.current} <br /> {goalRecord.date}
                         </p>
                         <div className="savings-goal">
-                          <p>₱{`${(goalRecord.amount - goalRecord.current).toLocaleString()}`}</p>
+                          <p>
+                            ₱
+                            {`${(
+                              goalRecord.amount - goalRecord.current
+                            ).toLocaleString()}`}
+                          </p>
                           <p>REMAINING</p>
                         </div>
                       </div>
