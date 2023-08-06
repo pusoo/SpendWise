@@ -31,7 +31,8 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "uglify-js": "^3.17.4"
   },
   "devDependencies": {
     "@capacitor/cli": "^5.2.2",
