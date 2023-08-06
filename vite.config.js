@@ -1,7 +1,20 @@
-import legacy from '@vitejs/plugin-legacy';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import legacy from '@vitejs/plugin-legacy';
+import { join } from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [legacy()],
+  plugins: [react(), legacy()],
+  build: {
+    outDir: 'dist', 
+    emptyOutDir: true, 
+    rollupOptions: {
+      input: {
+        main: join(__dirname, 'index.html'), 
+      },
+    },
+  },
+  server: {
+    port: 3000, 
+  },
 });

@@ -3,7 +3,7 @@
 .category-modal,
 .savings-modal,
 .lists-modal {
-  max-height: 320px;
+  max-height: 300px;
 }
 
 .tab3-modal,
@@ -12,7 +12,7 @@
 }
 
 .tab2-modal {
-  max-height: 250px;
+  max-height: 240px;
 }
 
 .category-modal {
@@ -55,7 +55,20 @@
 }
 
 .modal-inputs {
+  margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.modal-inputs > input {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--ion-color-border);
+  padding: 10px;
+}
+
+.modal-inputs > input:focus {
+  outline: none;
 }
 
 .modal-footer {

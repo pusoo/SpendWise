@@ -255,68 +255,6 @@ const Tab3 = ({ categories, setCategories }) => {
               ))}
           </IonReorderGroup>
         </IonList>
-
-        {/* ADD BUTTON */}
-        <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          <IonFabButton onClick={handleModalAdd}>
-            <IonIcon icon={add}></IonIcon>
-          </IonFabButton>
-        </IonFab>
-
-        {/* ADD MODAL */}
-        <IonModal isOpen={showModalAdd} className="tab3-modal">
-          <IonContent>
-            <IonHeader className="modal-header">
-              <IonToolbar>
-                <IonTitle>Add Category</IonTitle>
-              </IonToolbar>
-            </IonHeader>
-            <IonList className="modal-inputs">
-              <IonItem>
-                <IonInput
-                  label="Name:"
-                  labelPlacement="stacked"
-                  type="text"
-                  value={categoryName}
-                  onIonChange={(e) => setCategoryName(e.target.value)}
-                ></IonInput>
-              </IonItem>
-              <IonItem lines="none">
-                <IonLabel>Icon</IonLabel>
-              </IonItem>
-              <IonGrid>
-                <IonRow
-                  style={{ border: "1px solid #004ba8", borderRadius: "10px" }}
-                >
-                  {iconOptions.map((option, index) => (
-                    <IonCol size="3" key={index}>
-                      <IonIcon
-                        icon={option.icon}
-                        onClick={() => setCategoryIcon(option.icon)}
-                        style={{
-                          width: "40px",
-                          height: "40px",
-                          cursor: "pointer",
-                          padding: "8px",
-                          background: `${
-                            categoryIcon === option.icon
-                              ? "#d7d8da"
-                              : "transparent"
-                          }`,
-                          borderRadius: "10px",
-                        }}
-                      />
-                    </IonCol>
-                  ))}
-                </IonRow>
-              </IonGrid>
-            </IonList>
-            <div className="modal-footer">
-              <IonButton onClick={handleModalAdd}>CANCEL</IonButton>
-              <IonButton onClick={handleAddCategory}>DONE</IonButton>
-            </div>
-          </IonContent>
-        </IonModal>
       </IonContent>
     </IonPage>
   );

@@ -29,14 +29,14 @@ const Tab2 = () => {
   const [data, setData] = useState([]);
   console.log(data);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3000/tracker")
-      .then((res) => {
-        setData(res.data.data.map((record) => record));
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [updateTrigger]);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3000/tracker")
+  //     .then((res) => {
+  //       setData(res.data.data.map((record) => record));
+  //     })
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, [updateTrigger]);
 
   // const createGoalData = (body) => {
   //   console.log(body);
@@ -51,7 +51,6 @@ const Tab2 = () => {
   const [goalAmount, setGoalAmount] = useState(0);
   const [goalDate, setGoalDate] = useState("");
   const [goalRecords, setGoalRecords] = useState([
-    { label: "Car", amount: 5000, current: 0 },
   ]);
   const [currentAmount, setCurrentAmount] = useState(0);
   const [addGoalRecord, setAddGoalRecord] = useState({
@@ -202,24 +201,21 @@ const Tab2 = () => {
                   <IonTitle>Add Savings or Withdraw</IonTitle>
                 </IonToolbar>
               </IonHeader>
-              <IonList className="modal-inputs">
-                <IonItem>
-                  <IonInput
-                    label="Amount:"
-                    labelPlacement="stacked"
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
+              <IonList>
+                <IonItem className="modal-inputs">
+                  <label>Amount:</label>
+                  <input
+                    type="text"
                     value={addGoalRecord.current}
-                    onIonChange={(e) =>
+                    onChange={(e) =>
                       setAddGoalRecord((prev) => ({
                         ...prev,
                         current: e.target.value,
                       }))
                     }
-                  ></IonInput>
+                  ></input>
                 </IonItem>
-                <IonItem>
+                <IonItem className="modal-inputs">
                   <IonRadioGroup
                     value={selectedOption}
                     className="savings-radio"
@@ -229,19 +225,18 @@ const Tab2 = () => {
                     <IonRadio value="withdraw">Withdraw</IonRadio>
                   </IonRadioGroup>
                 </IonItem>
-                <IonItem>
-                  <IonInput
-                    label="Date:"
-                    labelPlacement="stacked"
+                <IonItem className="modal-inputs">
+                  <label>Date:</label>
+                  <input
                     type="date"
                     value={addGoalRecord.date}
-                    onIonChange={(e) =>
+                    onChange={(e) =>
                       setAddGoalRecord((prev) => ({
                         ...prev,
                         date: e.target.value,
                       }))
                     }
-                  ></IonInput>
+                  ></input>
                 </IonItem>
               </IonList>
               <div className="modal-footer">
@@ -269,26 +264,22 @@ const Tab2 = () => {
                 <IonTitle>Create New Goal</IonTitle>
               </IonToolbar>
             </IonHeader>
-            <IonList className="modal-inputs">
-              <IonItem>
-                <IonInput
-                  label="Goal name:"
-                  labelPlacement="stacked"
+            <IonList>
+              <IonItem className="modal-inputs">
+                <label>Goal name:</label>
+                <input
                   type="text"
                   value={goalName}
-                  onIonChange={(e) => setGoalName(e.target.value)}
-                ></IonInput>
+                  onChange={(e) => setGoalName(e.target.value)}
+                ></input>
               </IonItem>
-              <IonItem>
-                <IonInput
-                  label="Goal Amount:"
-                  labelPlacement="stacked"
-                  type="number"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
+              <IonItem className="modal-inputs">
+                <label>Goal Amount:</label>
+                <input
+                  type="text"
                   value={goalAmount}
-                  onIonChange={(e) => setGoalAmount(e.target.value)}
-                ></IonInput>
+                  onChange={(e) => setGoalAmount(e.target.value)}
+                ></input>
               </IonItem>
             </IonList>
             <div className="modal-footer">
